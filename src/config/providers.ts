@@ -1,0 +1,1 @@
+export const CREATE_ORDER_USE_CASE = Symbol('CREATE_ORDER_USE_CASE');
