@@ -11,4 +11,11 @@ export class InMemoryOrderRepository implements OrderRepositoryPort {
   async findById(id: string): Promise<Order | null> {
     return this.orders.get(id) ?? null;
   }
+
+  async update(order: Order): Promise<void> {
+    if (!this.orders.has(order.id)) {
+      throw new Error('Order not found');
+    }
+    this.orders.set(order.id, order);
+  }
 }

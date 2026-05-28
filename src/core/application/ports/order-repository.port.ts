@@ -1,8 +1,9 @@
-import { Order } from '../../domain/order.entity';
+import { Order } from "../../domain/order.entity";
 
-export const ORDER_REPOSITORY = Symbol('ORDER_REPOSITORY');
+export const ORDER_REPOSITORY = Symbol("ORDER_REPOSITORY");
 
 export interface OrderRepositoryPort {
   save(order: Order): Promise<void>;
   findById(id: string): Promise<Order | null>;
+  update(order: Order): Promise<void>;
 }
