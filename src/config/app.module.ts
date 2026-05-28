@@ -7,8 +7,10 @@ import { CreateOrderUseCase } from '../core/application/use-cases/create-order.u
 import { InMemoryOrderRepository } from '../infrastructure/adapters/in-memory-order.repository';
 import { OrdersController } from '../presentation/http/orders.controller';
 import { CREATE_ORDER_USE_CASE } from './providers';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
+  imports: [ConfigModule.forRoot()],
   controllers: [OrdersController],
   providers: [
     {
