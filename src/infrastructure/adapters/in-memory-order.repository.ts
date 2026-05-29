@@ -1,5 +1,5 @@
-import { OrderRepositoryPort } from '../../core/application/ports/order-repository.port';
-import { Order } from '../../core/domain/order.entity';
+import { OrderRepositoryPort } from '../../application/ports/order-repository.port';
+import { Order } from '../../domain/order.entity';
 
 export class InMemoryOrderRepository implements OrderRepositoryPort {
   private readonly orders = new Map<string, Order>();

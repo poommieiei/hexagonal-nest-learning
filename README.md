@@ -17,6 +17,22 @@ Dependency direction:
 
 Domain and use case layers do not depend on Nest.
 
+## Pub/Sub with Outbox (Hexagonal style)
+
+- Domain event objects live in `src/core/domain/events`.
+- Use cases append events to `OutboxRepositoryPort` after state changes.
+- `PublishOutboxEventsUseCase` pulls pending outbox messages and publishes them through `EventPublisherPort`.
+- Infrastructure provides:
+  - `InMemoryOutboxRepository` (outbox storage adapter)
+  - `InMemoryEventBusAdapter` (publisher adapter)
+  - `OrderCreatedConsumer` (incoming subscriber adapter)
+
+## Order Status
+
+- New orders start at `PENDING`.
+- `POST /orders/:id/complete` transitions an order to `COMPLETED`.
+- Completing an order appends `orders.completed` event to outbox.
+
 ## Quick Start
 
 1. Install dependencies:
@@ -28,6 +44,13 @@ Domain and use case layers do not depend on Nest.
 4. Try endpoint:
    - `POST /orders`
    - body: `{ "customerName": "Alice", "totalAmount": 1250 }`
+   - response includes `status`
+5. Complete an order:
+   - `POST /orders/:id/complete`
+   - response status becomes `COMPLETED`
+6. Publish pending outbox events:
+   - `POST /orders/outbox/publish`
+   - returns `{ "publishedCount": number }`
 
 ## Next Exercises
 

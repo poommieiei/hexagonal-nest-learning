@@ -1,0 +1,36 @@
+services:
+  hexagonal-db:
+    container_name: hexagonal-db
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123456
+      POSTGRES_DB: hexagonal
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - hexagonal-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d hexagonal"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user.admin@myorder.ai
+      PGADMIN_DEFAULT_PASSWORD: admin123456
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - hexagonal-db
+
+volumes:
+  hexagonal-data:
+  pgadmin-data:
